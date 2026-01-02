@@ -1,14 +1,16 @@
-// import Flutter
-// import UIKit
+import Flutter
+import UIKit
 
-// @main
-// @objc class AppDelegate: FlutterAppDelegate {
-//   override func application(
-//     _ application: UIApplication,
-//     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-//   ) -> Bool {
+@main
+@objc class AppDelegate: FlutterAppDelegate {
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
       
-//       let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
+      let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
+
+//**  Using method channel approach:  **
 //       let batteryChannel = FlutterMethodChannel(name: "samples.flutter.dev/battery",
 //                                                 binaryMessenger: controller.binaryMessenger)
 //       batteryChannel.setMethodCallHandler({
@@ -39,20 +41,11 @@
 //     }
 // }
 
-import Flutter
-import UIKit
+//**  Using Pigeon approach:  **
 
-@main
-@objc class AppDelegate: FlutterAppDelegate {
-  override func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-      
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
-    
-    // Create and register the battery API implementation
+    // Create the battery API implementation
     let batteryApi = PigeonApiImplementation()
+    // Register it with Pigeon's generated setup
     ExampleApiSetup.setUp(
       binaryMessenger: controller.binaryMessenger,
       api: batteryApi
@@ -63,9 +56,10 @@ import UIKit
   }
     
 }
-
+// Implement the protocol from Messages.g.swift
 private class PigeonApiImplementation: ExampleApi {
   func getBatteryLevel() throws -> Int64 {
+    // My native ios logic below:
     let device = UIDevice.current
     device.isBatteryMonitoringEnabled = true
     if device.batteryState == UIDevice.BatteryState.unknown {
@@ -75,3 +69,5 @@ private class PigeonApiImplementation: ExampleApi {
     }
   }
 }
+
+
