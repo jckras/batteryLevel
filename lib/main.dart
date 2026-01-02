@@ -57,10 +57,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String _batteryLevel = 'Unknown battery level.';
+  //**Using Method Channel approach**
   // static const platform = MethodChannel('samples.flutter.dev/battery');
   // Get battery level.
-  String _batteryLevel = 'Unknown battery level.';
-
   // Future<void> _getBatteryLevel() async {
   //   String batteryLevel;
   //   try {
@@ -75,10 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
   //   });
   // }
 
+// **Using pigeon approach**
    Future<void> _getBatteryLevel() async {
     String batteryLevel;
     try {
-      // final result = await platform.invokeMethod<int>('getBatteryLevel');
       final result = await ExampleApi().getBatteryLevel();
       batteryLevel = 'Battery level at $result % .';
     } on PlatformException catch (e) {
@@ -89,19 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _batteryLevel = batteryLevel;
     });
   }
-
-  // int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   });
-  // }
 
   @override
   @override
